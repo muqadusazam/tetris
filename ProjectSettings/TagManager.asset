@@ -6,6 +6,7 @@ TagManager:
   tags:
   - gameBlocks
   - shapeL
+  - txtGameOver
   layers:
   - Default
   - TransparentFX

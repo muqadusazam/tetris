@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public List<GameObject> blockPrefebs;
+    public List<Block> blockPrefebs;
     public GameObject placedParticle;
+    public Block blockSpawn;
+    public Transform spawnPoint;
     public float movementInterval;
     public float movementAmount;
+
 }
