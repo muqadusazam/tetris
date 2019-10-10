@@ -6,32 +6,43 @@ using UnityEngine.UI;
 
 public class Movement : MonoBehaviour
 {
-    public AudioSource audioSource;
-    public AudioClip movementAudio;
-    public AudioClip touchDownAudio;
-    public Block border;
-    public List<Block> blocklist;
-    public int bottonNumber = -40;
-    public bool isActive = false;
-    public GameManager gameManager;
-    public Preview image;
+    // ----------------------------------------- Public Variables -----------------------------------------
+    public AudioSource audioSource; // Audio source which gets and switches the audio clip to play
+    public AudioClip movementAudio; // pop audio clip which plays on the movement of the block
+    public AudioClip touchDownAudio; // audio effect played once the block is landed on the ground or collided
+    public Block border; // blocks which makes up the border
+    public List<Block> blocklist; // getting all the blocks in a list
+    public int bottonNumber = -40; // bottom number of the bottom boundary
+    public bool isActive = false; // movement of the blocks coming down
+    public GameManager gameManager; // main game manager variable which contains every object of the game
+    public Preview image; // image of the next spawning block
+    public List<Block> currentShape; // current shape where trigger is on
 
-    public List<Block> currentShape;
-    private Block nextShape;
-    //private Block previewShape;
-    private int timeFalling = 0;
-    private float timeElapsed = 0;
-    private int rotation = 90;
-    private Vector3 movement;
-    //private int index = 0;
-    private int sIndex = 0;
-    private bool hit = false;
-    int num;
+
+    // ----------------------------------------- Private Variables -----------------------------------------
+    private Block nextShape; // next block is randomly generated to be spawned
+    private int timeFalling = 0; // fall down time
+    private float timeElapsed = 0; // delta Time which is added on every frame in update
+    private int rotation = 90; // rotation value of movement
+    private Vector3 movement; // movement vector position
+    private int sIndex = 0; // first index
+    private bool hit = false; // boolean value used for hit to check if the blocks have hit the roof
+    int num; // number generated randomly is stored in this variable
+
+
+    // ----------------------------------------- NOTE -----------------------------------------
+    // Update is called once per frame
+    // Every frame, increment time elapsed
+    // If time elapsed has passed movement interval, do movement
+    // Move object down by movement amount
+    // Check if movement amount == max Limit
+    // if we're at the max limit, play particle efecct
+    // ----------------------------------------- NOTE -----------------------------------------
+
 
     void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
-        //Debug.Log
     }
 
     void Start()
@@ -43,13 +54,6 @@ public class Movement : MonoBehaviour
         movement = currentShape[sIndex].transform.position;
         isActive = true;
     }
-
-    // Update is called once per frame
-    // Every frame, increment time elapsed
-    // If time elapsed has passed movement interval, do movement
-    // Move object down by movement amount
-    // Check if movement amount == max Limit
-    // if we're at the max limit, play particle efecct
 
     void Update()
     {
@@ -137,38 +141,30 @@ public class Movement : MonoBehaviour
                 GameObject.Instantiate(gameManager.placedParticle, curr.transform);
                 audioSource.clip = touchDownAudio;
                 audioSource.Play();
-                isActive = false;
-                //return -1;
+                //isActive = false;
                 test = -1;
             }
             else if (curr.position.x <= -60) {
-
-                //return 2;
                 test = 2;
             }
             else if (curr.position.x >= 50) {
-
-                //return 3;
                 test = 3;
             }
         }
         return test;
     }
+
     private bool HitRoof()
     {
-        //foreach (Transform curr in currentShape[sIndex].blocks)
-        {
             if (currentShape[sIndex].transform.position.y > 90)
             {
                 return true;
             }
-        }
         return false;
     }
+
     private bool IsCollide()
     {
-        //if (currentShape[sIndex].transform.position.y < 90)
-        {
             foreach (var blockExist in gameManager.blockPrefebs)
             {
                 if (blockExist != null)
@@ -192,12 +188,10 @@ public class Movement : MonoBehaviour
                         }
                     }
             }
-        }
         return false;
     }
 
     private int randomNum() {
-        //return blocklist[(int)Random.Range(0,blocklist.Count-1)];
         return (int)Random.Range(0, blocklist.Count);
 
     }
@@ -212,7 +206,6 @@ public class Movement : MonoBehaviour
 
     private void RowCheck()
     {
-        int[,] array3D = new int[12,14];
         int test = 0; 
         int[] count = new int[15];
         foreach (var blockExist in gameManager.blockPrefebs)
@@ -253,7 +246,6 @@ public class Movement : MonoBehaviour
         {
             if (count[i] == 12)
                 removeBlocks();
-            //Debug.Log(i + "row count: " +  count[i]);
         }
         //Debug.Log(test);
     }
