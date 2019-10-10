@@ -12,10 +12,14 @@ public class ButtonHandler : MonoBehaviour
             Application.Quit();
 
         }
-        else
+        else if (name.Equals("Original"))
         {
-            SceneManager.LoadScene(name, LoadSceneMode.Single);
+            SceneManager.LoadScene("Original", LoadSceneMode.Single);
         }
-        
+        else if (name.Equals("Modified"))
+        {
+            SceneManager.LoadScene("Modified", LoadSceneMode.Single);
+        }
+
     }
 }

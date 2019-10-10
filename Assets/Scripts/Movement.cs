@@ -57,6 +57,7 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(num);
         if (!isActive) return;
         RowCheck();
         int set = IsTouchedDown();
@@ -93,6 +94,11 @@ public class Movement : MonoBehaviour
             {
 
                 currentShape[sIndex].transform.rotation = Quaternion.Euler(0, 0, rotation);
+                
+                if (sIndex == 3)
+                {
+                    rotation = 0;
+                }
                 if (rotation >= 360) rotation = 0;
                 if (!IsCollide() && IsTouchedDown() > 0)
                 {

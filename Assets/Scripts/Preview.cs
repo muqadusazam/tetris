@@ -28,30 +28,31 @@ public class Preview: MonoBehaviour
                 myImage.sprite = blockPics[0];
                 break;
             case 1:
-                //first block image
+                //second block image
                 myImage.sprite = blockPics[1];
                 break;
             case 2:
-                //first block image
+                //third block image
                 myImage.sprite = blockPics[2];
                 break;
             case 3:
-                //first block image
+                //fourth block image
                 myImage.sprite = blockPics[3];
                 break;
             case 4:
-                //first block image
+                //fifth block image
                 myImage.sprite = blockPics[4];
                 break;
             case 5:
-                //first block image
+                //sisth block image
                 myImage.sprite = blockPics[5];
                 break;
             case 6:
-                //first block image
+                //seventh block image
                 myImage.sprite = blockPics[6];
                 break;
             default:
+                // default picture
                 myImage.sprite = blockPics[7];
                 break;
 
