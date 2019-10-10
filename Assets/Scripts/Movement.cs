@@ -17,6 +17,7 @@ public class Movement : MonoBehaviour
     public GameManager gameManager; // main game manager variable which contains every object of the game
     public Preview image; // image of the next spawning block
     public List<Block> currentShape; // current shape where trigger is on
+    public Scene currentScene; // current scene which is loaded
 
 
     // ----------------------------------------- Private Variables -----------------------------------------
@@ -42,6 +43,7 @@ public class Movement : MonoBehaviour
 
     void Awake()
     {
+        currentScene = SceneManager.GetActiveScene();
         gameManager = FindObjectOfType<GameManager>();
     }
 
@@ -57,16 +59,27 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(num);
         if (!isActive) return;
-        RowCheck();
         int set = IsTouchedDown();
         timeElapsed += Time.deltaTime;
         fallDown();
         if (hit)
         {
-            isActive = false;
-            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            if (currentScene.name == "Modified")
+            {
+                foreach (var blockExist in gameManager.blockPrefebs)
+                {
+                    //blockExist.gameObject.SetActive(false);
+                    Destroy(blockExist);
+                    //blockExist.gameObject.SetActive(false);
+                }
+                
+            }
+            else
+            {
+                isActive = false;
+                SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+            }
         }
 
         if (set > 0)
