@@ -71,7 +71,7 @@ public class Movement : MonoBehaviour
         if (set > 0)
         {
 
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKeyDown(KeyCode.DownArrow) && set != -1)
             {
                 movement += new Vector3(0, -10, 0);
                 audioSource.clip = movementAudio;
@@ -141,7 +141,6 @@ public class Movement : MonoBehaviour
                 GameObject.Instantiate(gameManager.placedParticle, curr.transform);
                 audioSource.clip = touchDownAudio;
                 audioSource.Play();
-                //isActive = false;
                 test = -1;
             }
             else if (curr.position.x <= -60) {
