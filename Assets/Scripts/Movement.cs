@@ -12,9 +12,10 @@ public class Movement : MonoBehaviour
     public AudioClip touchDownAudio; // audio effect played once the block is landed on the ground or collided
     public Block border; // blocks which makes up the border
     public GameObject[] obsticlesList;
-    public GameObject[] lives;
+    public GameObject life1;
+    public GameObject life2;
+    public GameObject life3;
     public int lifeCount = 3;
-    public GameManager EndingPArticle;
     public List<Block> blocklist; // getting all the blocks in a list
     public int bottonNumber = -40; // bottom number of the bottom boundary
     public bool isActive = false; // movement of the blocks coming down
@@ -53,8 +54,8 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
+        
         obsticlesList = GameObject.FindGameObjectsWithTag("obsticles");
-        lives = GameObject.FindGameObjectsWithTag("lives");
         nextShape = (Block)Instantiate(blocklist[randomNum()], new Vector3(0f, 100.0f, 0f), Quaternion.identity);
         num = randomNum();
         image.change(num);
@@ -72,8 +73,18 @@ public class Movement : MonoBehaviour
         if (lifeCount <= 0)
         {
             isActive = false;
+            life1.SetActive(false);
+            life2.SetActive(false);
+            life3.SetActive(false);
             //GameObject.Instantiate(EndingPArticle);
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        }else if (lifeCount == 1)
+        {
+            life1.SetActive(false);
+            life2.SetActive(false);
+        }else if (lifeCount == 2)
+        {
+            life1.SetActive(false);
         }
         if (hit)
         {
@@ -228,10 +239,6 @@ public class Movement : MonoBehaviour
             {
                 lifeCount = lifeCount - 1;
                 Debug.Log("Hitted the obsticle");
-                for (var i = 0; i < lives.Length; i++)
-                {
-                    Destroy(lives[i]);
-                }
             }
         }
             //Debug.Log(obsticle + "position: " + obsticle.transform.position);
