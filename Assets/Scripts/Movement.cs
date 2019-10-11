@@ -11,10 +11,10 @@ public class Movement : MonoBehaviour
     public AudioClip movementAudio; // pop audio clip which plays on the movement of the block
     public AudioClip touchDownAudio; // audio effect played once the block is landed on the ground or collided
     public Block border; // blocks which makes up the border
-    public GameObject[] obsticlesList;
-    public GameObject life1;
-    public GameObject life2;
-    public GameObject life3;
+    public GameObject[] obsticlesList; // list of obsticles onjects
+    public GameObject life1; // life 1 game object image sprite
+    public GameObject life2; // life 2 game object image sprite
+    public GameObject life3; // life 3 game object image sprite
     public int lifeCount = 3;
     public List<Block> blocklist; // getting all the blocks in a list
     public int bottonNumber = -40; // bottom number of the bottom boundary
@@ -48,87 +48,94 @@ public class Movement : MonoBehaviour
 
     void Awake()
     {
-        currentScene = SceneManager.GetActiveScene();
-        gameManager = FindObjectOfType<GameManager>();
+        currentScene = SceneManager.GetActiveScene(); // getting the currently active scene
+        gameManager = FindObjectOfType<GameManager>(); // getting the object of game manager
     }
 
     void Start()
     {
         
-        obsticlesList = GameObject.FindGameObjectsWithTag("obsticles");
-        nextShape = (Block)Instantiate(blocklist[randomNum()], new Vector3(0f, 100.0f, 0f), Quaternion.identity);
-        num = randomNum();
-        image.change(num);
-        currentShape.Add(nextShape);
-        movement = currentShape[sIndex].transform.position;
-        isActive = true;
+        obsticlesList = GameObject.FindGameObjectsWithTag("obsticles"); // initialising obsticles list by getting the tag
+        nextShape = (Block)Instantiate(blocklist[randomNum()], new Vector3(0f, 100.0f, 0f), Quaternion.identity); // initialising next shape by random number
+        num = randomNum(); // randomly gemerated number
+        image.change(num); // changing the image by the number generated
+        currentShape.Add(nextShape); // setting trigger on current shape by setting next shape as current block
+        movement = currentShape[sIndex].transform.position; // activating movement on current shape
+        isActive = true; // setting the active true so the block moves
     }
 
     void Update()
     {
-        if (!isActive) return;
-        int set = IsTouchedDown();
-        timeElapsed += Time.deltaTime;
-        fallDown();
-        if (lifeCount <= 0)
+        if (!isActive) return; // checking if not active then return out
+        int set = IsTouchedDown(); // updating set as the current state number from touchdown
+        timeElapsed += Time.deltaTime; // completion time in seconds since the last frame
+        fallDown(); // activating the time in order for the auto drop of the blocks per second
+
+        if (lifeCount <= 0) // if all livea are gone
         {
-            isActive = false;
+            isActive = false; // stop the movement by deactivating
+            // deactivating all lives images
             life1.SetActive(false);
             life2.SetActive(false);
             life3.SetActive(false);
-            //GameObject.Instantiate(EndingPArticle);
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-        }else if (lifeCount == 1)
+        }else if (lifeCount == 1) // if only 1 life is left
         {
+            // deactivating 2 lives images
             life1.SetActive(false);
             life2.SetActive(false);
-        }else if (lifeCount == 2)
+        }else if (lifeCount == 2) // if 2 lives are left
         {
+            // deactivating 1 life images
             life1.SetActive(false);
         }
-        if (hit)
+
+        if (hit) // if the prefebs have hit the roof
         {
-            if (currentScene.name == "Modified")
-            {
-                isActive = false;
-            }
-            else
-            {
+            if (currentScene.name == "Modified") { isActive = false; } // if current scene is modified then simply stop the movement
+            else { // otherwise stop the movement and return back to the main menu page
                 isActive = false;
                 SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
             }
         }
 
-        if (set > 0)
+        if (set > 0) // if not hit
         {
-
+            // Activating down arrow button to lower the current block
             if (Input.GetKeyDown(KeyCode.DownArrow) && set != -1)
             {
-                movement += new Vector3(0, -10, 0);
-                audioSource.clip = movementAudio;
-                audioSource.Play();
+                movement += new Vector3(0, -10, 0); // moveing down in y axis
+                audioSource.clip = movementAudio; // setting the audio source of movement
+                audioSource.Play(); // playing the audio
             }
+
+            // Activating right arrow button to turn right the current block
             if (Input.GetKeyDown(KeyCode.RightArrow) && set != 3)
             {
-                movement += new Vector3(10, 0, 0);
-                audioSource.clip = movementAudio;
-                audioSource.Play();
+                movement += new Vector3(10, 0, 0); // moveing down in x axis
+                audioSource.clip = movementAudio; // setting the audio source of movement
+                audioSource.Play(); // playing the audio
             }
+
+            // Activating left arrow button to turn left the current block
             if (Input.GetKeyDown(KeyCode.LeftArrow) && set != 2)
             {
-                movement += new Vector3(-10, 0, 0);
-                audioSource.clip = movementAudio;
-                audioSource.Play();
+                movement += new Vector3(-10, 0, 0); // moveing down in x axis
+                audioSource.clip = movementAudio; // setting the audio source of movement
+                audioSource.Play(); // playing the audio
             }
+
+            // Activating spacebar button to reshape the current block
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                // checking if the rotation of the current block is 90 degree
                 currentShape[sIndex].transform.rotation = Quaternion.Euler(0, 0, rotation);
-                if (rotation >= 360) rotation = 0;
-                if (!IsCollide() && IsTouchedDown() > 0)
+                if (rotation >= 360) rotation = 0; // if the rotation is more or same as 360 then zero the rotation
+                if (!IsCollide() && IsTouchedDown() > 0) // if the block has not landed
                 {
-                    rotation += 90;
-                    audioSource.clip = movementAudio;
-                    audioSource.Play();
+                    rotation += 90; // add 90 degree angle on the block
+                    audioSource.clip = movementAudio; // setting the audio source of movement
+                    audioSource.Play(); // playing the audio
                 }
             }
 
@@ -138,47 +145,45 @@ public class Movement : MonoBehaviour
             
             //create new block in right position
             gameManager.blockPrefebs.Add(currentShape[sIndex]);
+            // everything zeroed to start with
             set = 0;
             timeElapsed = 0;
             timeFalling = 0;
-
-            currentShape.RemoveAt(0);
-
-            nextShape = Block.Instantiate(blocklist[num], new Vector3(0f, 100.0f, 0f), Quaternion.identity);
-            currentShape.Add(nextShape);
-            num = randomNum();
-            image.change(num);
-            set = IsTouchedDown();
-            movement = currentShape[sIndex].transform.position;
-            isActive = true;
+            currentShape.RemoveAt(0); // remove the last block as current block
+            nextShape = Block.Instantiate(blocklist[num], new Vector3(0f, 100.0f, 0f), Quaternion.identity); // Instantiating a new random block
+            currentShape.Add(nextShape); // add the new shape as the current shape
+            num = randomNum(); // get the next random number
+            image.change(num); // change the image based on the new random number
+            set = IsTouchedDown(); // get the updated value of the touchdown state
+            movement = currentShape[sIndex].transform.position; // activating movement on current shape
+            isActive = true; // setting the active true so the block moves
 
         }
-
-        set = 1;
-        currentShape[sIndex].transform.position = movement;
-
+        set = 1; // setting the number as touch down
+        currentShape[sIndex].transform.position = movement; // activating the movement on the current block
     }
 
+    // method for touch down which returns a number based on the their state
     private int IsTouchedDown()
     {   
-        int test = 1;
-        foreach (Transform curr in currentShape[sIndex].blocks) {
-            if (curr.transform.position.y <= bottonNumber || IsCollide())
+        int test = 1; // default value as 1
+        foreach (Transform curr in currentShape[sIndex].blocks) { // iterating through all the shapes in the currentshape list
+            if (curr.transform.position.y <= bottonNumber || IsCollide()) // if position of the block coming has either touched the bottom numnber or collided
             {
-                GameObject.Instantiate(gameManager.placedParticle, curr.transform);
-                checkObsticles(curr);
-                audioSource.clip = touchDownAudio;
-                audioSource.Play();
-                test = -1;
+                GameObject.Instantiate(gameManager.placedParticle, curr.transform); // Instantiate particle effects on the current position of the block
+                checkObsticles(curr); // check for the obsticles set in modified level using the current block position
+                audioSource.clip = touchDownAudio; // setting the audio source of touch down
+                audioSource.Play(); // playing the audio
+                test = -1; // return -1 as touched down state value
             }
-            else if (curr.position.x <= -60) {
-                test = 2;
+            else if (curr.position.x <= -60) { // checking if the left border to put constraint of movement
+                test = 2; // state it as 2
             }
-            else if (curr.position.x >= 50) {
-                test = 3;
+            else if (curr.position.x >= 50) { // checking if the right border to put constraint of movement
+                test = 3; // state it as 3
             }
         }
-        return test;
+        return test; // retun the dafault value
     }
 
     private bool HitRoof()

@@ -20,6 +20,10 @@ public class ButtonHandler : MonoBehaviour
         {
             SceneManager.LoadScene("Modified", LoadSceneMode.Single);
         }
+        else if (name.Equals("MainMenu"))
+        {
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        }
 
     }
 }
