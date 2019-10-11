@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour
     public GameObject[] obsticlesList;
     public GameObject[] lives;
     public int lifeCount = 3;
+    public GameManager EndingPArticle;
     public List<Block> blocklist; // getting all the blocks in a list
     public int bottonNumber = -40; // bottom number of the bottom boundary
     public bool isActive = false; // movement of the blocks coming down
@@ -68,9 +69,10 @@ public class Movement : MonoBehaviour
         int set = IsTouchedDown();
         timeElapsed += Time.deltaTime;
         fallDown();
-        if (lifeCount == 0)
+        if (lifeCount <= 0)
         {
             isActive = false;
+            //GameObject.Instantiate(EndingPArticle);
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
         if (hit)
@@ -222,15 +224,14 @@ public class Movement : MonoBehaviour
     {
         foreach (GameObject obsticle in obsticlesList)
         {
-            if (current.transform.position.x == obsticle.transform.position.x)
+            if (current.transform.position.x == obsticle.transform.position.x && current.transform.position.y == obsticle.transform.position.y)
             {
                 lifeCount = lifeCount - 1;
                 Debug.Log("Hitted the obsticle");
-                foreach (GameObject life in lives)
+                for (var i = 0; i < lives.Length; i++)
                 {
-                    life.SetActive(false);
+                    Destroy(lives[i]);
                 }
-                return;
             }
         }
             //Debug.Log(obsticle + "position: " + obsticle.transform.position);
