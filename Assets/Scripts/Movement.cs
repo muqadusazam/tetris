@@ -11,6 +11,9 @@ public class Movement : MonoBehaviour
     public AudioClip movementAudio; // pop audio clip which plays on the movement of the block
     public AudioClip touchDownAudio; // audio effect played once the block is landed on the ground or collided
     public Block border; // blocks which makes up the border
+    public GameObject[] obsticlesList;
+    public GameObject[] lives;
+    public int lifeCount = 3;
     public List<Block> blocklist; // getting all the blocks in a list
     public int bottonNumber = -40; // bottom number of the bottom boundary
     public bool isActive = false; // movement of the blocks coming down
@@ -49,6 +52,8 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
+        obsticlesList = GameObject.FindGameObjectsWithTag("obsticles");
+        lives = GameObject.FindGameObjectsWithTag("lives");
         nextShape = (Block)Instantiate(blocklist[randomNum()], new Vector3(0f, 100.0f, 0f), Quaternion.identity);
         num = randomNum();
         image.change(num);
@@ -63,17 +68,16 @@ public class Movement : MonoBehaviour
         int set = IsTouchedDown();
         timeElapsed += Time.deltaTime;
         fallDown();
+        if (lifeCount == 0)
+        {
+            isActive = false;
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        }
         if (hit)
         {
             if (currentScene.name == "Modified")
             {
-                foreach (var blockExist in gameManager.blockPrefebs)
-                {
-                    //blockExist.gameObject.SetActive(false);
-                    Destroy(blockExist);
-                    //blockExist.gameObject.SetActive(false);
-                }
-                
+                isActive = false;
             }
             else
             {
@@ -105,13 +109,7 @@ public class Movement : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
-
                 currentShape[sIndex].transform.rotation = Quaternion.Euler(0, 0, rotation);
-                
-                if (sIndex == 3)
-                {
-                    rotation = 0;
-                }
                 if (rotation >= 360) rotation = 0;
                 if (!IsCollide() && IsTouchedDown() > 0)
                 {
@@ -124,7 +122,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
-
+            
             //create new block in right position
             gameManager.blockPrefebs.Add(currentShape[sIndex]);
             set = 0;
@@ -133,16 +131,13 @@ public class Movement : MonoBehaviour
 
             currentShape.RemoveAt(0);
 
-
             nextShape = Block.Instantiate(blocklist[num], new Vector3(0f, 100.0f, 0f), Quaternion.identity);
-
             currentShape.Add(nextShape);
             num = randomNum();
             image.change(num);
             set = IsTouchedDown();
             movement = currentShape[sIndex].transform.position;
             isActive = true;
-
 
         }
 
@@ -152,12 +147,13 @@ public class Movement : MonoBehaviour
     }
 
     private int IsTouchedDown()
-    {
+    {   
         int test = 1;
         foreach (Transform curr in currentShape[sIndex].blocks) {
             if (curr.transform.position.y <= bottonNumber || IsCollide())
             {
                 GameObject.Instantiate(gameManager.placedParticle, curr.transform);
+                checkObsticles(curr);
                 audioSource.clip = touchDownAudio;
                 audioSource.Play();
                 test = -1;
@@ -199,7 +195,7 @@ public class Movement : MonoBehaviour
                                 }
                                 else
                                 {
-                                    return true;
+                                return true;
                                 }
 
                             }
@@ -222,7 +218,38 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void RowCheck()
+    private void checkObsticles(Transform current)
+    {
+        foreach (GameObject obsticle in obsticlesList)
+        {
+            if (current.transform.position.x == obsticle.transform.position.x)
+            {
+                lifeCount = lifeCount - 1;
+                Debug.Log("Hitted the obsticle");
+                foreach (GameObject life in lives)
+                {
+                    life.SetActive(false);
+                }
+                return;
+            }
+        }
+            //Debug.Log(obsticle + "position: " + obsticle.transform.position);
+            //Debug.Log(blockExist.transform.position);
+
+            //foreach (var blockExist in gameManager.blockPrefebs)
+            //{
+            //    if (blockExist != null)
+            //        foreach (Transform each in blockExist.blocks)
+            //        {
+            //            if (each.transform.position.y == obsticle.transform.position.y)
+            //            {
+            //                Debug.Log("Hit the Obsticle");
+            //            }
+            //        }
+            //}
+        }
+
+        private void RowCheck()
     {
         int test = 0; 
         int[] count = new int[15];
