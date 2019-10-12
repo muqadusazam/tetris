@@ -173,16 +173,16 @@ public class Movement : MonoBehaviour
         return test; // retun the dafault value
     }
 
-    private bool HitRoof()
+    private bool HitRoof() // method for checking if the blocks have hit the roof
     {
-            if (currentShape[sIndex].transform.position.y > 90)
+            if (currentShape[sIndex].transform.position.y > 90) // checking if the position of cureent shape is above 90
             {
-                return true;
+                return true; // then return true
             }
-        return false;
+        return false; // otherwise false
     }
 
-    private void setLifeCount(int count)
+    private void setLifeCount(int count) // method to set the lives of the player by passing in the count numbner
     {
         if (lifeCount <= 0) // if all livea are gone
         {
@@ -191,6 +191,7 @@ public class Movement : MonoBehaviour
             life1.SetActive(false);
             life2.SetActive(false);
             life3.SetActive(false);
+            // finally load the main menu scene meaning the player is dead
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
         else if (lifeCount == 1) // if only 1 life is left
@@ -206,73 +207,72 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private bool IsCollide()
+    private bool IsCollide() // checking if the block has collided with another block
     {
-            foreach (var blockExist in gameManager.blockPrefebs)
+            foreach (var blockExist in gameManager.blockPrefebs) // iterate through all the blocks present in the game manager block list
             {
-                if (blockExist != null)
-                    foreach (Transform each in blockExist.blocks)
+                if (blockExist != null) // checking if the list is not empty
+                    foreach (Transform each in blockExist.blocks) // if not then iterate over through the individual block which makes up a prefab
                     {
-                        foreach (Transform current in currentShape[sIndex].blocks)
+                        foreach (Transform current in currentShape[sIndex].blocks) // for the current block prefab in the list
                         {
-                            if (each.position + new Vector3(0, 10, 0) == current.position)
+                            if (each.position + new Vector3(0, 10, 0) == current.position) // check if it's position is same as each other blocks in the prefab
                             {
-                                if (currentShape[sIndex].transform.position.y == 100)
+                                if (currentShape[sIndex].transform.position.y == 100) // checking if the current shape is at 100
                                 {
-                                    hit = true;
-                                    return false;
+                                    hit = true; // means it has hit the roof
+                                    return false; // returning flase because it has not collided instead hit the roof
                                 }
                                 else
                                 {
-                                return true;
+                                return true; // otherwise it means that it has collided with another block present in the list
                                 }
 
                             }
                         }
                     }
             }
-        return false;
+        return false; // default return value
     }
 
-    private int randomNum() {
-        return (int)Random.Range(0, blocklist.Count);
+    private int randomNum() { // method to generate random number
+        return (int)Random.Range(0, blocklist.Count); // generating and returning random number based on the blocks list length
 
     }
 
-    private void fallDown()
+    private void fallDown() // controls the movement
     {
-        if (timeElapsed > timeFalling) {
-            movement += new Vector3(0, -10, 0);
-            timeFalling++;
+        if (timeElapsed > timeFalling) { // checking if time has not elapased
+            movement += new Vector3(0, -10, 0); // activate the movement for the blocks to come down
+            timeFalling++; // increment it to bring it down
         }
     }
 
-    private void removeBlocksRandomly()
+    private void removeBlocksRandomly() // method to remove the blocks randomly
     {
-        List<GameObject> tempList = new List<GameObject>();
-        foreach (var blockExist in gameManager.blockPrefebs)
+        foreach (var blockExist in gameManager.blockPrefebs) // iterating over through all the blocks in the game manager
         {
-            if (blockExist != null)
-                if (blockExist.transform.position.y >= 10)
+            if (blockExist != null) // checking the list is not empty
+                if (blockExist.transform.position.y >= 10) // then check for all the blocks prefabs where position is above or equal to 10
                 {
-                    Destroy(blockExist.gameObject);
-                    audioSource.clip = blocksRemovedAudio; // setting the audio source of movement
+                    Destroy(blockExist.gameObject); // get them and destroy (remove) them from the game
+                    audioSource.clip = blocksRemovedAudio; // setting the audio source of blocks removal
                     audioSource.Play(); // playing the audio
-                    hit = false;
+                    hit = false; // set the hit to be false (meaning it has not hit thr roof)
                 }
         }
-        lifeCount = lifeCount - 1;
+        lifeCount = lifeCount - 1; // remove one life from the player's lives
     }
 
-    private void checkObsticles(Transform current)
+    private void checkObsticles(Transform current) // method to check for the red trap blocks
     {
-        foreach (GameObject obsticle in obsticlesList)
+        foreach (GameObject obsticle in obsticlesList) // iterate over through the list of traps
         {
+            // check if their position matches the traps position
             if (current.transform.position.x == obsticle.transform.position.x && current.transform.position.y == obsticle.transform.position.y)
             {
-                lifeCount = lifeCount - 1;
+                lifeCount = lifeCount - 1; // then take down 1 life
             }
         }
     }
-
 }
