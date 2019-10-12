@@ -48,18 +48,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 3876193618997444696}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c8d029b6ec05f440b2cf9cbce22b45e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5921bf050fcc849cdb8c05b757c050a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obsticles:
-  - {fileID: 3876193619639493169}
-  - {fileID: 3876193619042033286}
-  - {fileID: 3876193619015166918}
-  - {fileID: 3876193619349918085}
-  - {fileID: 3876193619290463351}
-  - {fileID: 3876193619308132233}
-  - {fileID: 3876193619743589529}
-  - {fileID: 3876193619288686239}
+  audioSource: {fileID: 0}
+  movementAudio: {fileID: 0}
+  touchDownAudio: {fileID: 0}
+  border: {fileID: 0}
+  obsticlesList: []
+  life1: {fileID: 0}
+  life2: {fileID: 0}
+  life3: {fileID: 0}
+  lifeCount: 3
+  blocklist: []
+  bottonNumber: -40
+  isActive: 0
+  gameManager: {fileID: 0}
+  image: {fileID: 0}
+  currentShape: []
+  currentScene:
+    m_Handle: 0
 --- !u!1 &3876193619015166919
 GameObject:
   m_ObjectHideFlags: 0

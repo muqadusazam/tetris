@@ -23,6 +23,7 @@ public class Movement : MonoBehaviour
     public Preview image; // image of the next spawning block
     public List<Block> currentShape; // current shape where trigger is on
     public Scene currentScene; // current scene which is loaded
+    public int set;
 
 
     // ----------------------------------------- Private Variables -----------------------------------------
@@ -67,32 +68,16 @@ public class Movement : MonoBehaviour
     void Update()
     {
         if (!isActive) return; // checking if not active then return out
-        int set = IsTouchedDown(); // updating set as the current state number from touchdown
+        set = IsTouchedDown(); // updating set as the current state number from touchdown
         timeElapsed += Time.deltaTime; // completion time in seconds since the last frame
         fallDown(); // activating the time in order for the auto drop of the blocks per second
-
-        if (lifeCount <= 0) // if all livea are gone
-        {
-            isActive = false; // stop the movement by deactivating
-            // deactivating all lives images
-            life1.SetActive(false);
-            life2.SetActive(false);
-            life3.SetActive(false);
-            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-        }else if (lifeCount == 1) // if only 1 life is left
-        {
-            // deactivating 2 lives images
-            life1.SetActive(false);
-            life2.SetActive(false);
-        }else if (lifeCount == 2) // if 2 lives are left
-        {
-            // deactivating 1 life images
-            life1.SetActive(false);
-        }
+        setLifeCount(lifeCount);
 
         if (hit) // if the prefebs have hit the roof
         {
-            if (currentScene.name == "Modified") { isActive = false; } // if current scene is modified then simply stop the movement
+            if (currentScene.name == "Modified") {
+                removeBlocksRandomly();
+            } // if current scene is modified then simply stop the movement
             else { // otherwise stop the movement and return back to the main menu page
                 isActive = false;
                 SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
@@ -174,6 +159,7 @@ public class Movement : MonoBehaviour
                 checkObsticles(curr); // check for the obsticles set in modified level using the current block position
                 audioSource.clip = touchDownAudio; // setting the audio source of touch down
                 audioSource.Play(); // playing the audio
+                    
                 test = -1; // return -1 as touched down state value
             }
             else if (curr.position.x <= -60) { // checking if the left border to put constraint of movement
@@ -193,6 +179,30 @@ public class Movement : MonoBehaviour
                 return true;
             }
         return false;
+    }
+
+    private void setLifeCount(int count)
+    {
+        if (lifeCount <= 0) // if all livea are gone
+        {
+            isActive = false; // stop the movement by deactivating
+            // deactivating all lives images
+            life1.SetActive(false);
+            life2.SetActive(false);
+            life3.SetActive(false);
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        }
+        else if (lifeCount == 1) // if only 1 life is left
+        {
+            // deactivating 2 lives images
+            life1.SetActive(false);
+            life2.SetActive(false);
+        }
+        else if (lifeCount == 2) // if 2 lives are left
+        {
+            // deactivating 1 life images
+            life1.SetActive(false);
+        }
     }
 
     private bool IsCollide()
@@ -236,6 +246,24 @@ public class Movement : MonoBehaviour
         }
     }
 
+    private void removeBlocksRandomly()
+    {
+        //Debug.Log("x position: " + current.transform.position.x + "/ny position: " + current.transform.position.y);
+        List<GameObject> tempList = new List<GameObject>();
+        foreach (var blockExist in gameManager.blockPrefebs)
+        {
+            if (blockExist != null)
+                    if (blockExist.transform.position.y >= 10)
+                    {
+                    
+                    Destroy(blockExist.gameObject);
+                    hit = false;
+                    
+                }
+        }
+        lifeCount = lifeCount - 1;
+    }
+
     private void checkObsticles(Transform current)
     {
         foreach (GameObject obsticle in obsticlesList)
@@ -243,72 +271,8 @@ public class Movement : MonoBehaviour
             if (current.transform.position.x == obsticle.transform.position.x && current.transform.position.y == obsticle.transform.position.y)
             {
                 lifeCount = lifeCount - 1;
-                Debug.Log("Hitted the obsticle");
             }
         }
-            //Debug.Log(obsticle + "position: " + obsticle.transform.position);
-            //Debug.Log(blockExist.transform.position);
-
-            //foreach (var blockExist in gameManager.blockPrefebs)
-            //{
-            //    if (blockExist != null)
-            //        foreach (Transform each in blockExist.blocks)
-            //        {
-            //            if (each.transform.position.y == obsticle.transform.position.y)
-            //            {
-            //                Debug.Log("Hit the Obsticle");
-            //            }
-            //        }
-            //}
-        }
-
-        private void RowCheck()
-    {
-        int test = 0; 
-        int[] count = new int[15];
-        foreach (var blockExist in gameManager.blockPrefebs)
-        {
-            if (blockExist != null)
-                foreach (Transform each in blockExist.blocks)
-                {
-                    /*
-                    for (int i = -4; i == 10; i++) { // checking individual rows
-                        if (each.position.y == i * 10)
-                        {
-                            count[index]++;
-                        }
-                    }
-                    while (row <= 90) {
-                        //if()
-                            if (each.position.y == row)
-                                count[index]++;
-                        row += 10;
-                    }
-                    foreach (Transform each2 in blockExist.blocks)
-                        if (each2.position.y == row)
-                            count[index]++; */
-                            
-                    /*for (int i = 0; i <= 14; i++)
-                    {
-                        row = row + (i * 10);
-                        if (each.position.y == row)
-                            count[i]++;
-                        
-                    }*/
-
-                    test++;
-                }
-        }
-
-        for (int i = 0; i <= 14; i++)
-        {
-            if (count[i] == 12)
-                removeBlocks();
-        }
-        //Debug.Log(test);
     }
 
-    private void removeBlocks() {
-        Debug.LogWarning("success");
-    }
 }
