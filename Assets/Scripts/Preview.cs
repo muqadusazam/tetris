@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Preview: MonoBehaviour
 {
-    public Image myImage;
-    public Sprite[] blockPics;
+    public Image myImage; // variavke to store the image
+    public Sprite[] blockPics; // variable to store the list of sprites
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +19,9 @@ public class Preview: MonoBehaviour
         
     }
 
-    public void change(int num)
+    public void change(int num) // method to change the image based on the random number generated
     {
-        switch (num)
+        switch (num) // swtich statement to switch image based on the number
         {
             case 0:
                 //first block image
