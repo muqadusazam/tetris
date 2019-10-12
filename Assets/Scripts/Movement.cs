@@ -16,7 +16,7 @@ public class Movement : MonoBehaviour
     public GameObject life1; // life 1 game object image sprite
     public GameObject life2; // life 2 game object image sprite
     public GameObject life3; // life 3 game object image sprite
-    public int lifeCount = 3;
+    public int lifeCount = 3; // count of life stored and is changed based on the state
     public List<Block> blocklist; // getting all the blocks in a list
     public int bottonNumber = -40; // bottom number of the bottom boundary
     public bool isActive = false; // movement of the blocks coming down
@@ -24,7 +24,7 @@ public class Movement : MonoBehaviour
     public Preview image; // image of the next spawning block
     public List<Block> currentShape; // current shape where trigger is on
     public Scene currentScene; // current scene which is loaded
-    public int set;
+    public int set; // it stores the current state of the touch down number and is checked against to perform action
 
 
     // ----------------------------------------- Private Variables -----------------------------------------
