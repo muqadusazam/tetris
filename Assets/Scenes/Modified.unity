@@ -441,6 +441,7 @@ MonoBehaviour:
   audioSource: {fileID: 641536570}
   movementAudio: {fileID: 8300000, guid: 6e97ad47eb3024a87af3d8b4a83e15d5, type: 3}
   touchDownAudio: {fileID: 8300000, guid: f547cc83ceeb049259b8013c445ec878, type: 3}
+  blocksRemovedAudio: {fileID: 8300000, guid: 7ebf784becae841f78906a5c0b3737c5, type: 3}
   border: {fileID: 0}
   obsticlesList:
   - {fileID: 1345641994}
@@ -470,6 +471,7 @@ MonoBehaviour:
   currentShape: []
   currentScene:
     m_Handle: 0
+  set: 0
 --- !u!114 &506584769
 MonoBehaviour:
   m_ObjectHideFlags: 0

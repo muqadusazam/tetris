@@ -10,6 +10,7 @@ public class Movement : MonoBehaviour
     public AudioSource audioSource; // Audio source which gets and switches the audio clip to play
     public AudioClip movementAudio; // pop audio clip which plays on the movement of the block
     public AudioClip touchDownAudio; // audio effect played once the block is landed on the ground or collided
+    public AudioClip blocksRemovedAudio; // audio effect of blocks removed
     public Block border; // blocks which makes up the border
     public GameObject[] obsticlesList; // list of obsticles onjects
     public GameObject life1; // life 1 game object image sprite
@@ -248,17 +249,16 @@ public class Movement : MonoBehaviour
 
     private void removeBlocksRandomly()
     {
-        //Debug.Log("x position: " + current.transform.position.x + "/ny position: " + current.transform.position.y);
         List<GameObject> tempList = new List<GameObject>();
         foreach (var blockExist in gameManager.blockPrefebs)
         {
             if (blockExist != null)
-                    if (blockExist.transform.position.y >= 10)
-                    {
-                    
+                if (blockExist.transform.position.y >= 10)
+                {
                     Destroy(blockExist.gameObject);
+                    audioSource.clip = blocksRemovedAudio; // setting the audio source of movement
+                    audioSource.Play(); // playing the audio
                     hit = false;
-                    
                 }
         }
         lifeCount = lifeCount - 1;
