@@ -9,7 +9,7 @@ public class ButtonHandler : MonoBehaviour
     {
         if (name.Equals("end")) // if the button is "equal"
         {
-            Application.Quit(); // then exit out of the game
+            UnityEditor.EditorApplication.isPlaying = false; // then exit out of the game
 
         }
         else if (name.Equals("Original")) // if the button is "Original"
