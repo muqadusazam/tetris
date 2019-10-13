@@ -275,9 +275,9 @@ public class Movement : MonoBehaviour
             if (current.transform.position.x == obsticle.transform.position.x && current.transform.position.y == obsticle.transform.position.y)
             {
                 //lifeCount = lifeCount - 1; // then take down 1 life
-                if (scores.scoreValue >= 10)
+                if (scores.scoreValue >= 10) // checking if the scorevalue is above or equal to 10
                 {
-                    scores.scoreValue = scores.scoreValue - 10;
+                    scores.scoreValue = scores.scoreValue - 10; // then remove 10 scores
                 }
             }
         }
