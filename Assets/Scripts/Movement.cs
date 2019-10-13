@@ -274,7 +274,11 @@ public class Movement : MonoBehaviour
             // check if their position matches the traps position
             if (current.transform.position.x == obsticle.transform.position.x && current.transform.position.y == obsticle.transform.position.y)
             {
-                lifeCount = lifeCount - 1; // then take down 1 life
+                //lifeCount = lifeCount - 1; // then take down 1 life
+                if (scores.scoreValue >= 10)
+                {
+                    scores.scoreValue = scores.scoreValue - 10;
+                }
             }
         }
     }

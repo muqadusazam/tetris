@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class scores : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InvokeRepeating("addScores", 3.0f, 10.0f);
         score = GetComponent<Text>(); 
     }
 
@@ -17,5 +19,10 @@ public class scores : MonoBehaviour
     void Update()
     {
         score.text = "" + scoreValue;
+    }
+    
+    void addScores()
+    {
+        scoreValue = scoreValue + 5;
     }
 }
