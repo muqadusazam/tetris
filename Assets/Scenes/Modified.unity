@@ -881,7 +881,7 @@ GameObject:
   - component: {fileID: 960440169}
   m_Layer: 5
   m_Name: lblHighestPoints
-  m_TagString: Untagged
+  m_TagString: lblHighestScorePoints
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11087,9 +11087,10 @@ GameObject:
   - component: {fileID: 1636471599}
   - component: {fileID: 1636471601}
   - component: {fileID: 1636471600}
+  - component: {fileID: 1636471602}
   m_Layer: 5
   m_Name: lblScorePoints
-  m_TagString: Untagged
+  m_TagString: lblScoresPoints
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11155,6 +11156,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1636471598}
   m_CullTransparentMesh: 0
+--- !u!114 &1636471602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636471598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91071071dd8e4a4ca33c8f0085279f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1669515522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3876193619288686236, guid: 8a2e5beba5ef9b543b9e07fc00fd868b,

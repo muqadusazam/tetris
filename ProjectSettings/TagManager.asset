@@ -9,6 +9,8 @@ TagManager:
   - txtGameOver
   - obsticles
   - lives
+  - lblScoresPoints
+  - lblHighestScorePoints
   layers:
   - Default
   - TransparentFX

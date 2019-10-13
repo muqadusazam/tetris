@@ -178,7 +178,13 @@ MonoBehaviour:
   audioSource: {fileID: 519420030}
   movementAudio: {fileID: 8300000, guid: 6e97ad47eb3024a87af3d8b4a83e15d5, type: 3}
   touchDownAudio: {fileID: 8300000, guid: f547cc83ceeb049259b8013c445ec878, type: 3}
+  blocksRemovedAudio: {fileID: 0}
   border: {fileID: 1759868006243700873}
+  obsticlesList: []
+  life1: {fileID: 0}
+  life2: {fileID: 0}
+  life3: {fileID: 0}
+  lifeCount: 3
   blocklist:
   - {fileID: 1021058628760803096, guid: 59bb35f3225c34f27bc811c0e551a6a8, type: 3}
   - {fileID: 2982300242373555539, guid: 9f2c7dc6ac92f4bf88f90814cc7cb627, type: 3}
@@ -192,6 +198,9 @@ MonoBehaviour:
   gameManager: {fileID: 78272171}
   image: {fileID: 1940806352}
   currentShape: []
+  currentScene:
+    m_Handle: 0
+  set: 0
 --- !u!1 &270491594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,7 +1043,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 90
+  m_Text: 100
 --- !u!222 &1653164037
 CanvasRenderer:
   m_ObjectHideFlags: 0

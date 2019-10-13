@@ -56,7 +56,6 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
-        
         obsticlesList = GameObject.FindGameObjectsWithTag("obsticles"); // initialising obsticles list by getting the tag
         nextShape = (Block)Instantiate(blocklist[randomNum()], new Vector3(0f, 100.0f, 0f), Quaternion.identity); // initialising next shape by random number
         num = randomNum(); // randomly gemerated number
@@ -77,6 +76,10 @@ public class Movement : MonoBehaviour
         if (hit) // if the prefebs have hit the roof
         {
             if (currentScene.name == "Modified") {
+                if (scores.scoreValue >= 20)
+                {
+                    scores.scoreValue = scores.scoreValue - 20;
+                }
                 removeBlocksRandomly();
             } // if current scene is modified then simply stop the movement
             else { // otherwise stop the movement and return back to the main menu page
@@ -184,7 +187,7 @@ public class Movement : MonoBehaviour
 
     private void setLifeCount(int count) // method to set the lives of the player by passing in the count numbner
     {
-        if (lifeCount <= 0) // if all livea are gone
+        if (count <= 0) // if all livea are gone
         {
             isActive = false; // stop the movement by deactivating
             // deactivating all lives images
@@ -194,13 +197,13 @@ public class Movement : MonoBehaviour
             // finally load the main menu scene meaning the player is dead
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
-        else if (lifeCount == 1) // if only 1 life is left
+        else if (count == 1) // if only 1 life is left
         {
             // deactivating 2 lives images
             life1.SetActive(false);
             life2.SetActive(false);
         }
-        else if (lifeCount == 2) // if 2 lives are left
+        else if (count == 2) // if 2 lives are left
         {
             // deactivating 1 life images
             life1.SetActive(false);
